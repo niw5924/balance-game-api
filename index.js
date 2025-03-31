@@ -10,5 +10,5 @@ app.use('/api/questions', questionsRouter);
 app.use('/api/types', typesRouter);
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}!!!`);
 });
