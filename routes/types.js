@@ -1,17 +1,17 @@
 ﻿const express = require('express');
 const router = express.Router();
-
-// 유형 데이터
-const types = [
-    "감성형", "이성형", "모험형", "회피형", "자기중심형",
-    "공감형", "돌직구형", "이상주의형", "현실주의형", "낭만형",
-    "도전형", "관찰자형", "쾌락추구형", "신중형", "충동형",
-    "자기희생형", "호기심형", "분석형", "기피형", "전통중시형"
-];
+const pool = require('../db');
 
 // GET /api/types
-router.get('/', (req, res) => {
-    res.json(types);
+router.get('/', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT name FROM types');
+        const types = result.rows.map((row) => row.name);
+        res.json(types);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: '서버 에러' });
+    }
 });
 
 module.exports = router;
