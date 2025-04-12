@@ -1,11 +1,13 @@
 ﻿const express = require('express');
 const router = express.Router();
 const pool = require('../db');
+const saveUserPlayRecord = require('../services/user_play_records');
+const updateUserTypeCounts = require('../services/user_type_counts');
 
 router.post('/', async (req, res) => {
-    const { user_id, category, selected_answers } = req.body;
+    const { user_id, category, selected_answers, type_counts } = req.body;
 
-    if (!user_id || !category || !selected_answers) {
+    if (!user_id || !category || !selected_answers || !type_counts) {
         return res.status(400).send('요청 정보가 올바르지 않습니다.');
     }
 
@@ -28,14 +30,12 @@ router.post('/', async (req, res) => {
             }
         }
 
-        await pool.query(
-            'INSERT INTO user_play_records (user_id, category, selected_answers, created_at) VALUES ($1, $2, $3, NOW())',
-            [user_id, category, selected_answers]
-        );
+        await saveUserPlayRecord(pool, user_id, category, selected_answers);
+        await updateUserTypeCounts(pool, user_id, type_counts);
 
         res.status(200).send('기록 저장 완료');
     } catch (error) {
-        console.error('DB 저장 실패:', error);
+        console.error('저장 실패:', error);
         res.status(500).send('서버 에러');
     }
 });

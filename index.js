@@ -4,14 +4,14 @@ const port = 3000;
 
 const questionsRouter = require('./routes/questions');
 const typesRouter = require('./routes/types');
-const userPlayRecordsRouter = require('./routes/user_play_records');
+const submitPlayResultRouter = require('./routes/submit_play_result');
 
 app.use(express.json());
 
 app.use('/api/questions', questionsRouter);
 app.use('/api/types', typesRouter);
-app.use('/api/user_play_records', userPlayRecordsRouter);
+app.use('/api/submit_play_result', submitPlayResultRouter);
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}!!!`);
+    console.log(`Server running at http://localhost:${port}`);
 });
