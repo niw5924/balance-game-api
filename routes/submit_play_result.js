@@ -1,8 +1,8 @@
 ﻿const express = require('express');
 const router = express.Router();
 const pool = require('../db');
-const saveUserPlayRecord = require('../services/user_play_records');
-const updateUserTypeCounts = require('../services/user_type_counts');
+const saveUserPlayRecord = require('../services/save_user_play_record');
+const updateUserTypeCounts = require('../services/update_user_type_counts');
 
 router.post('/', async (req, res) => {
     const { user_id, category, selected_answers, type_counts } = req.body;
