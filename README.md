@@ -21,3 +21,9 @@
   - `services/user_play_records.js`: `saveUserPlayRecord()` 함수 호출
   - `services/user_type_counts.js`: `updateUserTypeCounts()` 함수 호출
 - 5분 이내 동일한 선택값을 다시 제출하는 경우, 중복으로 간주되어 저장되지 않습니다.
+
+### 사용자 타입 카운트 조회  
+`GET http://localhost:3000/api/user_type_counts/:user_id`
+
+### 사용자 플레이 기록 조회  
+`GET http://localhost:3000/api/user_play_records/:user_id`
