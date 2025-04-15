@@ -24,10 +24,10 @@ router.get('/', async (req, res) => {
             })
         );
 
-        res.json(questionsWithOptions);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: '서버 에러' });
+        res.status(200).json(questionsWithOptions);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(`(서버 에러) ${error.message}`);
     }
 });
 

@@ -33,10 +33,10 @@ router.post('/', async (req, res) => {
         await saveUserPlayRecord(pool, user_id, category, selected_answers);
         await updateUserTypeCounts(pool, user_id, type_counts);
 
-        res.status(200).send('기록 저장 완료');
+        res.sendStatus(200);
     } catch (error) {
         console.error('저장 실패:', error);
-        res.status(500).send('서버 에러');
+        res.status(500).send(`(서버 에러) ${error.message}`);
     }
 });
 

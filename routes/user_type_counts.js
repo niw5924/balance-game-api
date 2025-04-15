@@ -18,7 +18,7 @@ router.get('/:user_id', async (req, res) => {
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.error('유형 조회 실패:', error);
-        res.status(500).send('서버 에러');
+        res.status(500).send(`(서버 에러) ${error.message}`);
     }
 });
 
