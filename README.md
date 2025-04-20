@@ -27,3 +27,6 @@
 
 ### 사용자 플레이 기록 조회  
 `GET http://localhost:3000/api/user_play_records/:user_id`
+
+### 사용자 데이터 삭제  
+`POST http://localhost:3000/api/delete_user_data`
