@@ -18,6 +18,6 @@ app.use('/api/user_type_counts', userTypeCountsRouter);
 app.use('/api/user_play_records', userPlayRecordsRouter);
 app.use('/api/delete_user_data', deleteUserDataRouter);
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server running at http://0.0.0.0:${port}`);
 });
