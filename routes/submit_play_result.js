@@ -7,21 +7,18 @@ const updateUserTypeCounts = require('../services/update_user_type_counts');
 router.post('/', async (req, res) => {
     const { user_id, category, selected_answers, type_counts } = req.body;
 
-    // 입력값 검증
     if (!user_id || !category || !selected_answers || !type_counts) {
         return res.status(400).send('요청 정보가 올바르지 않습니다.');
     }
 
-    // selected_answers를 문자열(JSON)로 변환
     const selectedAnswersJson = JSON.stringify(selected_answers);
 
     try {
-        // 중복 저장 방지 (5분 이내 동일 응답)
         const recent = await pool.query(
             `SELECT * FROM user_play_records
-             WHERE user_id = $1 AND category = $2 AND selected_answers = $3
-             ORDER BY created_at DESC
-             LIMIT 1`,
+       WHERE user_id = $1 AND category = $2 AND selected_answers::jsonb = $3::jsonb
+       ORDER BY created_at DESC
+       LIMIT 1`,
             [user_id, category, selectedAnswersJson]
         );
 
@@ -35,7 +32,6 @@ router.post('/', async (req, res) => {
             }
         }
 
-        // 저장 처리
         await saveUserPlayRecord(pool, user_id, category, selectedAnswersJson);
         await updateUserTypeCounts(pool, user_id, type_counts);
 
