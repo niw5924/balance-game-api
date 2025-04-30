@@ -7,8 +7,11 @@
 
 ## 📡 API 주소 목록 (AWS EC2 사용)
 
-### 질문 목록 요청  
-`GET http://15.164.99.183:3000/api/questions`
+### 질문 목록 요청 (카테고리별 랜덤 10개 제공)  
+`GET http://15.164.99.183:3000/api/questions/:category`
+
+- 전달받은 카테고리에 해당하는 질문 중 10개를 무작위로 반환합니다.
+- 각 질문은 두 개의 선택지를 포함합니다.
 
 ### 유형 목록 요청  
 `GET http://15.164.99.183:3000/api/types`
@@ -17,6 +20,7 @@
 `POST http://15.164.99.183:3000/api/submit_play_result`
 
 - 사용자가 게임을 완료하고 "저장하기"를 눌렀을 때 호출되는 API입니다.
+- 전송되는 `selected_answers`는 질문 ID와 선택 인덱스를 쌍으로 갖는 리스트 형태입니다.
 - 내부적으로 다음 두 함수가 호출됩니다:
   - `services/user_play_records.js`: `saveUserPlayRecord()` 함수 호출
   - `services/user_type_counts.js`: `updateUserTypeCounts()` 함수 호출
