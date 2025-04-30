@@ -2,13 +2,15 @@
 const router = express.Router();
 const pool = require('../db');
 
-// GET /api/questions
-router.get('/', async (req, res) => {
-    try {
-        // 모든 질문 조회
-        const questionResult = await pool.query('SELECT * FROM questions');
+router.get('/:category', async (req, res) => {
+    const { category } = req.params;
 
-        // 질문마다 옵션 붙이기
+    try {
+        const questionResult = await pool.query(
+            'SELECT * FROM questions WHERE category = $1 ORDER BY RANDOM() LIMIT 10',
+            [category]
+        );
+
         const questionsWithOptions = await Promise.all(
             questionResult.rows.map(async (q) => {
                 const optionsResult = await pool.query(
