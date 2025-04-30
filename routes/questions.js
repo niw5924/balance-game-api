@@ -2,11 +2,30 @@
 const router = express.Router();
 const pool = require('../db');
 
-// GET /api/questions
+// GET /api/questions?category=19금
+// GET /api/questions?category=혐오
+// GET /api/questions?category=극한
+// GET /api/questions?category=혼란
+// GET /api/questions?category=망신
 router.get('/', async (req, res) => {
+    const { category } = req.query;
+
+    // category 파라미터가 없을 경우 에러 처리
+    if (!category) {
+        return res.status(400).send('(요청 오류) category 쿼리 파라미터가 필요합니다.');
+    }
+
     try {
-        // 모든 질문 조회
-        const questionResult = await pool.query('SELECT * FROM questions');
+        // 선택한 카테고리의 질문 중 랜덤하게 10개 조회
+        const questionResult = await pool.query(
+            `
+            SELECT * FROM questions
+            WHERE category = $1
+            ORDER BY RANDOM()
+            LIMIT 10
+            `,
+            [category]
+        );
 
         // 질문마다 옵션 붙이기
         const questionsWithOptions = await Promise.all(
