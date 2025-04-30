@@ -12,12 +12,14 @@ router.post('/', async (req, res) => {
     }
 
     try {
+        const selectedAnswersJson = JSON.stringify(selected_answers);
+
         const recent = await pool.query(
             `SELECT * FROM user_play_records
-       WHERE user_id = $1 AND category = $2 AND selected_answers = $3
-       ORDER BY created_at DESC
-       LIMIT 1`,
-            [user_id, category, selected_answers]
+             WHERE user_id = $1 AND category = $2 AND selected_answers = $3
+             ORDER BY created_at DESC
+             LIMIT 1`,
+            [user_id, category, selectedAnswersJson]
         );
 
         if (recent.rows.length > 0) {
@@ -30,7 +32,7 @@ router.post('/', async (req, res) => {
             }
         }
 
-        await saveUserPlayRecord(pool, user_id, category, selected_answers);
+        await saveUserPlayRecord(pool, user_id, category, selectedAnswersJson);
         await updateUserTypeCounts(pool, user_id, type_counts);
 
         res.sendStatus(200);
