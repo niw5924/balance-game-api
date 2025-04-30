@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
                 );
 
                 return {
+                    id: q.id,
                     category: q.category,
                     question: q.question,
                     options: optionsResult.rows,
