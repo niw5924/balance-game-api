@@ -34,17 +34,17 @@ router.get('/:category', async (req, res) => {
     }
 });
 
-router.post('/by_ids', async (req, res) => {
-    const { ids } = req.body;
+router.post('/questionIds', async (req, res) => {
+    const { questionIds } = req.body;
 
-    if (!Array.isArray(ids) || ids.length === 0) {
+    if (!Array.isArray(questionIds) || questionIds.length === 0) {
         return res.status(400).send('질문 ID 배열이 필요합니다.');
     }
 
     try {
         const questionResult = await pool.query(
-            'SELECT * FROM questions WHERE id = ANY($1)',
-            [ids]
+            'SELECT * FROM questions WHERE id = ANY($1) ORDER BY array_position($1, id)',
+            [questionIds]
         );
 
         const questionsWithOptions = await Promise.all(
